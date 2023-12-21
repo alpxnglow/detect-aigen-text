@@ -17,7 +17,7 @@ data_file = "/kaggle/input/imdb-dataset-of-50k-movie-reviews/IMDB Dataset.csv"
 texts, labels = load_imdb_data(data_file)
 
 class TextClassificationDataset(Dataset):
-def __init__(self, texts, labels, tokenizer, max_length):
+    def __init__(self, texts, labels, tokenizer, max_length):
         self.texts = texts
         self.labels = labels
         self.tokenizer = tokenizer
@@ -85,27 +85,27 @@ def predict_sentiment(text, model, tokenizer, device, max_length=128):
     return "positive" if preds.item() == 1 else "negative"
 
 # Set up parameters
- bert_model_name = 'bert-base-uncased'
- num_classes = 2
- max_length = 128
- batch_size = 16
- num_epochs = 4
- learning_rate = 2e-5
+bert_model_name = 'bert-base-uncased'
+num_classes = 2
+max_length = 128
+batch_size = 16
+num_epochs = 4
+learning_rate = 2e-5
 
 train_texts, val_texts, train_labels, val_labels = train_test_split(texts, labels, test_size=0.2, random_state=42)
 
 tokenizer = BertTokenizer.from_pretrained(bert_model_name)
-    train_dataset = TextClassificationDataset(train_texts, train_labels, tokenizer, max_length)
-    val_dataset = TextClassificationDataset(val_texts, val_labels, tokenizer, max_length)
-    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    val_dataloader = DataLoader(val_dataset, batch_size=batch_size)
+train_dataset = TextClassificationDataset(train_texts, train_labels, tokenizer, max_length)
+val_dataset = TextClassificationDataset(val_texts, val_labels, tokenizer, max_length)
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+val_dataloader = DataLoader(val_dataset, batch_size=batch_size)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = BERTClassifier(bert_model_name, num_classes).to(device)
+model = BERTClassifier(bert_model_name, num_classes).to(device)
 
 optimizer = AdamW(model.parameters(), lr=learning_rate)
-    total_steps = len(train_dataloader) * num_epochs
-    scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=total_steps)
+total_steps = len(train_dataloader) * num_epochs
+scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=total_steps)
 
 for epoch in range(num_epochs):
         print(f"Epoch {epoch + 1}/{num_epochs}")
@@ -118,21 +118,21 @@ for epoch in range(num_epochs):
 torch.save(model.state_dict(), "bert_classifier.pth")
 
 # Test sentiment prediction
-    test_text = "The movie was great and I really enjoyed the performances of the actors."
-    sentiment = predict_sentiment(test_text, model, tokenizer, device)
-    print("The movie was great and I really enjoyed the performances of the actors.")
-    print(f"Predicted sentiment: {sentiment}")
+test_text = "The movie was great and I really enjoyed the performances of the actors."
+sentiment = predict_sentiment(test_text, model, tokenizer, device)
+print("The movie was great and I really enjoyed the performances of the actors.")
+print(f"Predicted sentiment: {sentiment}")
 
 # Test sentiment prediction
-    test_text = "The movie was so bad and I would not recommend it to anyone."
-    sentiment = predict_sentiment(test_text, model, tokenizer, device)
-    print("The movie was so bad and I would not recommend it to anyone.")
-    print(f"Predicted sentiment: {sentiment}")
+test_text = "The movie was so bad and I would not recommend it to anyone."
+sentiment = predict_sentiment(test_text, model, tokenizer, device)
+print("The movie was so bad and I would not recommend it to anyone.")
+print(f"Predicted sentiment: {sentiment}")
 
 # Test sentiment prediction
-    test_text = "Worst movie of the year."
-    sentiment = predict_sentiment(test_text, model, tokenizer, device)
-    print("Worst movie of the year.")
-    print(f"Predicted sentiment: {sentiment}")
+test_text = "Worst movie of the year."
+sentiment = predict_sentiment(test_text, model, tokenizer, device)
+print("Worst movie of the year.")
+print(f"Predicted sentiment: {sentiment}")
 
 
