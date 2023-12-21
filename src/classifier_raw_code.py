@@ -7,17 +7,24 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
 
-def load_imdb_data(data_file):
+### CONSTANTS ###
+INPUT_FILE = "data/train_essays.csv" # this file should eventually have all of my training data, including AI generated data
+BERT_MODEL_NAME = 'bert-base-uncased'
+NUM_CLASSES = 2
+MAX_LENGTH = 128
+BATCH_SIZE = 16
+NUM_EPOCHS = 4
+LEARNING_RATE = 2e-5
+
+### GENERIC METHODS ###
+# Read data
+def load_essay_data(data_file):
     df = pd.read_csv(data_file)
-    texts = df['review'].tolist()
-    labels = [1 if sentiment == "positive" else 0 for sentiment in df['sentiment'].tolist()]
+    texts = df['text'].tolist()
+    labels = [1 if generated == "1" else 0 for generated in df['generated'].tolist()]
     return texts, labels
 
-data_file = "/kaggle/input/imdb-dataset-of-50k-movie-reviews/IMDB Dataset.csv"
-texts, labels = load_imdb_data(data_file)
-
-# - Create a custom dataset class for text classification - #
-
+# Text classification dataset class
 class TextClassificationDataset(Dataset):
     def __init__(self, texts, labels, tokenizer, max_length):
         self.texts = texts
@@ -32,24 +39,21 @@ class TextClassificationDataset(Dataset):
         encoding = self.tokenizer(text, return_tensors='pt', max_length=self.max_length, padding='max_length', truncation=True)
         return {'input_ids': encoding['input_ids'].flatten(), 'attention_mask': encoding['attention_mask'].flatten(), 'label': torch.tensor(label)}
 
-# - Build our customer BERT classifier - #
-
+# BERT classifier class
 class BERTClassifier(nn.Module):
     def __init__(self, bert_model_name, num_classes):
         super(BERTClassifier, self).__init__()
         self.bert = BertModel.from_pretrained(bert_model_name)
         self.dropout = nn.Dropout(0.1)
         self.fc = nn.Linear(self.bert.config.hidden_size, num_classes)
-
-def forward(self, input_ids, attention_mask):
+    def forward(self, input_ids, attention_mask):
         outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
         pooled_output = outputs.pooler_output
         x = self.dropout(pooled_output)
         logits = self.fc(x)
         return logits
 
-# - Define the train() function - #
-
+# Train the model
 def train(model, data_loader, optimizer, scheduler, device):
     model.train()
     for batch in data_loader:
@@ -63,8 +67,7 @@ def train(model, data_loader, optimizer, scheduler, device):
         optimizer.step()
         scheduler.step()
 
-# - Build our evaluation method - #
-
+# Evaluate the performance of the model
 def evaluate(model, data_loader, device):
     model.eval()
     predictions = []
@@ -80,81 +83,68 @@ def evaluate(model, data_loader, device):
             actual_labels.extend(labels.cpu().tolist())
     return accuracy_score(actual_labels, predictions), classification_report(actual_labels, predictions)
 
-# - Build our prediction method - #
-
-def predict_sentiment(text, model, tokenizer, device, max_length=128):
+# Inference run on sample instance
+def predict_generated(text, model, tokenizer, device, max_length=128):
     model.eval()
     encoding = tokenizer(text, return_tensors='pt', max_length=max_length, padding='max_length', truncation=True)
     input_ids = encoding['input_ids'].to(device)
     attention_mask = encoding['attention_mask'].to(device)
-
     with torch.no_grad():
         outputs = model(input_ids=input_ids, attention_mask=attention_mask)
         _, preds = torch.max(outputs, dim=1)
-    return "positive" if preds.item() == 1 else "negative"
+    return "1" if preds.item() == 1 else "0"
 
-# - Define our model’s parameters - #
 
-bert_model_name = 'bert-base-uncased'
-num_classes = 2
-max_length = 128
-batch_size = 16
-num_epochs = 4
-learning_rate = 2e-5
+### Main ###
 
-# - Loading and splitting the data. - #
+# Read the data file
+texts, labels = load_essay_data(INPUT_FILE)
 
+# Split the data into train and validation sets
 train_texts, val_texts, train_labels, val_labels = train_test_split(texts, labels, test_size=0.2, random_state=42)
 
-# - Initialize tokenizer, dataset, and data loader - #
+# Initialize tokenizer, dataset, and data loader
+tokenizer = BertTokenizer.from_pretrained(BERT_MODEL_NAME)
+train_dataset = TextClassificationDataset(train_texts, train_labels, tokenizer, MAX_LENGTH)
+val_dataset = TextClassificationDataset(val_texts, val_labels, tokenizer, MAX_LENGTH)
+train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
 
-tokenizer = BertTokenizer.from_pretrained(bert_model_name)
-train_dataset = TextClassificationDataset(train_texts, train_labels, tokenizer, max_length)
-val_dataset = TextClassificationDataset(val_texts, val_labels, tokenizer, max_length)
-train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-val_dataloader = DataLoader(val_dataset, batch_size=batch_size)
-
-# - Set up the device and model - #
-
+# Set up the device and model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = BERTClassifier(bert_model_name, num_classes).to(device)
+model = BERTClassifier(BERT_MODEL_NAME, NUM_CLASSES).to(device)
 
-# - Set up optimizer and learning rate scheduler - #
-
-optimizer = AdamW(model.parameters(), lr=learning_rate)
-total_steps = len(train_dataloader) * num_epochs
+# Set up optimizer and learning rate scheduler
+optimizer = AdamW(model.parameters(), lr=LEARNING_RATE)
+total_steps = len(train_dataloader) * NUM_EPOCHS
 scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=total_steps)
 
-# - Training the model - #
+# Training the model
+for epoch in range(NUM_EPOCHS):
+    print(f"Epoch {epoch + 1}/{NUM_EPOCHS}")
+    train(model, train_dataloader, optimizer, scheduler, device)
+    accuracy, report = evaluate(model, val_dataloader, device)
+    print(f"Validation Accuracy: {accuracy:.4f}")
+    print(report)
 
-for epoch in range(num_epochs):
-        print(f"Epoch {epoch + 1}/{num_epochs}")
-        train(model, train_dataloader, optimizer, scheduler, device)
-        accuracy, report = evaluate(model, val_dataloader, device)
-        print(f"Validation Accuracy: {accuracy:.4f}")
-        print(report)
-
-# Saving the final model
+# Save the final model
 torch.save(model.state_dict(), "bert_classifier.pth")
 
-# - Evaluating our model’s performance - #
-
-# Test sentiment prediction
+# Evaluate the model’s performance
+# Test generated prediction
 test_text = "The movie was great and I really enjoyed the performances of the actors."
-sentiment = predict_sentiment(test_text, model, tokenizer, device)
+generated = predict_generated(test_text, model, tokenizer, device)
 print("The movie was great and I really enjoyed the performances of the actors.")
-print(f"Predicted sentiment: {sentiment}")
+print(f"Predicted generated: {generated}")
 
-# Test sentiment prediction
+# Test generated prediction
 test_text = "The movie was so bad and I would not recommend it to anyone."
-sentiment = predict_sentiment(test_text, model, tokenizer, device)
+generated = predict_generated(test_text, model, tokenizer, device)
 print("The movie was so bad and I would not recommend it to anyone.")
-print(f"Predicted sentiment: {sentiment}")
+print(f"Predicted generated: {generated}")
 
-# Test sentiment prediction
+# Test generated prediction
 test_text = "Worst movie of the year."
-sentiment = predict_sentiment(test_text, model, tokenizer, device)
+generated = predict_generated(test_text, model, tokenizer, device)
 print("Worst movie of the year.")
-print(f"Predicted sentiment: {sentiment}")
-
-
+print(f"Predicted generated: {generated}")
