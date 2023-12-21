@@ -95,7 +95,7 @@ def predict_generated(text, model, tokenizer, device, max_length=128):
     return "1" if preds.item() == 1 else "0"
 
 
-### Main ###
+### MAIN ###
 
 # Read the data file
 texts, labels = load_essay_data(INPUT_FILE)
