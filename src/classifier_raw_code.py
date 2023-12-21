@@ -103,6 +103,7 @@ texts, labels = load_essay_data(INPUT_FILE)
 # Split the data into train and validation sets
 train_texts, val_texts, train_labels, val_labels = train_test_split(texts, labels, test_size=0.2, random_state=42)
 
+
 # Initialize tokenizer, dataset, and data loader
 tokenizer = BertTokenizer.from_pretrained(BERT_MODEL_NAME)
 train_dataset = TextClassificationDataset(train_texts, train_labels, tokenizer, MAX_LENGTH)
