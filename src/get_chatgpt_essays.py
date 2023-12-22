@@ -1,6 +1,12 @@
 from openai import OpenAI
 client = OpenAI()
 
+# Prompt Engineering
+markerRemover = "Write a polished, final draft without paragraph markers"
+ages = ["10 year-old", "high-school student", "college student", "adult", "old person"]
+native = ["native English speaker", "non-native English speaker"]
+sourcesRemover = "Do not include a sources section"
+
 response = client.chat.completions.create(
   model="gpt-3.5-turbo",
   messages=[
@@ -10,3 +16,5 @@ response = client.chat.completions.create(
     {"role": "user", "content": "Where was it played?"}
   ]
 )
+
+print(response)
