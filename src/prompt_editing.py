@@ -18,8 +18,8 @@ line = file.readlines()
 
 
 #add tacks to prompt engineer
-for x in range(2):
-   for y in range(5):
+for x in range(len(native)):
+   for y in range(len(ages)):
         for z in range(100):
             newPrompt = line[z].strip() + " " + markerRemover + "in the voice of a " + ages[y] + " who is a " + native[x] + sourcesRemover
             new_file.write(newPrompt)
