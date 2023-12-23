@@ -131,21 +131,17 @@ for epoch in range(NUM_EPOCHS):
 
 # Evaluate the model’s performance
 # Test generated prediction
-test_text = """Income inequality can affect our health and how long we live. It's important to understand how money is distributed in our society and how it affects healthcare disparities and life expectancy. Scientists have done studies and found that there is a connection between income inequality and health.
+test_text = """Universal Basic Income (UBI) has been a hot topic lately, and peeps have strong feels on both sides. There are some major benefits to UBI, but it's not all sunshine and rainbows. Let's dive in and check out what's what.
 
-First, let's talk about healthcare disparities. When there is a big gap between how much money people earn, it can lead to differences in access to healthcare. People who have less money might struggle to afford healthcare services like doctor visits, medicine, and surgeries. On the other hand, people with more money can afford better healthcare and have more options available to them.
+First off, the biggest perk of UBI is how it can help peeps who struggle to make ends meet. It's like a safety net – everyone gets a set amount of cash regularly, no matter what. This means peeps who might be jobless, underemployed, or facing tough times can count on some dough to cover basics like food, housing, and bills. It can also free peeps up to take risks, like starting a biz or pursuing education, coz they're not stressing about survival.
 
-In a study conducted by researchers, they found that people with lower incomes are more likely to have chronic diseases such as diabetes and heart disease. This could be due to the lack of access to healthcare and preventive services. Without proper healthcare, these chronic diseases can become more severe and lead to a shorter life expectancy.
+Economists have different theories on how UBI could play out. Some think it might boost the economy by giving folks more cash to spend. When people have money, they spend it, which could mean more demand for goods and services, leading to more jobs and growth. Plus, it might reduce income inequality, coz everyone gets the same baseline.
 
-Life expectancy is another area where income inequality plays a role. Life expectancy refers to how long a person is expected to live on average. Studies have shown that in countries with higher income inequality, people tend to have a lower life expectancy compared to countries with less income inequality.
+But hold up, coz UBI comes with its fair share of challenges too. Critics worry it might make peeps lazy, like if they know they're getting cash regardless, why bother working? This could lead to a drop in productivity and a strain on the workforce. Plus, some say UBI might cause inflation – if everyone has more money, prices might go up, making the extra cash less helpful.
 
-There are a few reasons why income inequality can impact life expectancy. One reason is that people with lower incomes might not have access to healthy food options and live in neighborhoods with poor environmental conditions. These factors can lead to unhealthy lifestyles and increase the risk of developing diseases.
+There've been some pilot programs testing UBI around the globe. In places like Finland and Kenya, they tried giving people a regular sum of money, no strings attached. The results were mixed. In Finland, peeps reported feeling less stressed, but it didn't make a huge diff in employment rates. In Kenya, some peeps used the money to start small businesses, which boosted their lives, but it wasn't a cure-all.
 
-Another reason is the stress that comes with living in poverty. People who are struggling financially might constantly worry about money, and this stress can have a negative impact on their health. It can lead to mental health issues and physical health problems, ultimately reducing life expectancy.
-
-Socioeconomic factors also contribute to the connection between income inequality and health. Socioeconomic factors include things like education level, occupation, and social status. People with higher socioeconomic status tend to have better health outcomes and longer life expectancy.
-
-In conclusion, income inequality has a significant impact on healthcare disparities and life expectancy. People with lower incomes often face barriers in accessing quality healthcare, which can lead to poorer health outcomes and shorter life expectancy. Socioeconomic factors also come into play, as they contribute to the disparities in health outcomes. It is important to address income inequality and work towards creating a more equitable society where everyone has equal access to healthcare and opportunities for a healthy life."""
+In conclusion, UBI has its pros and cons. It could be a game-changer for peeps struggling to get by, giving them stability and freedom. But there are risks, like potential laziness and inflation, that need serious consideration. Pilot programs offer some insights, but more research is needed to see if UBI is truly the way forward."""
 generated = predict_generated(test_text, model, tokenizer, device)
 print(f"1. Predicted generated: {generated}")
 

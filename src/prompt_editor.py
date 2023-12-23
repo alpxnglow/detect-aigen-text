@@ -1,6 +1,4 @@
-#imports
-
-#tacks
+#edits
 newPrompt =  ""
 markerRemover = 'Write a polished, final draft without paragraph markers (e.g., do not include "Title", "Introduction", "Paragraph 1", etc.) '
 ages = ["10 year-old", "high-school student", "college student", "adult", "old person"]
