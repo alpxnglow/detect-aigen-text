@@ -16,13 +16,8 @@ line = file.readlines()
 #print(line[2])
 
 
-<<<<<<< HEAD
 #add tacks to prompt engineer
 for x in range(100):
-=======
-#add edits to base prompt
-for x in range(len(native)):
->>>>>>> e7d5add (	modified:   src/prompt_editing.py)
    for y in range(len(ages)):
         for z in range(len(native)):
             newPrompt = line[x].strip() + " " + markerRemover + "in the voice and style of a " + ages[y] + " who is a " + native[z] + sourcesRemover + errorIntro + ages[y] + "."
