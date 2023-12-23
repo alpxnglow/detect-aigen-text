@@ -6,6 +6,7 @@ from transformers import BertTokenizer, BertModel, get_linear_schedule_with_warm
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
+from pathlib import Path
 
 ### CONSTANTS ###
 INPUT_FILE = "data/training_data.csv"
@@ -15,6 +16,8 @@ MAX_LENGTH = 128
 BATCH_SIZE = 16
 NUM_EPOCHS = 1
 LEARNING_RATE = 2e-5
+HOME_DIR = str(Path.home())
+MODEL_OUTPUT_LOCATION = os.path.join(HOME_DIR, "Documents", "Model", "ai_human_esssay_classifier.pth")
 
 ### GENERIC METHODS ###
 # Read data
@@ -127,7 +130,7 @@ for epoch in range(NUM_EPOCHS):
     print(report)
 
 # Save the final model
-# torch.save(model.state_dict(), "bert_classifier.pth")
+torch.save(model.state_dict(), MODEL_OUTPUT_LOCATION)
 
 # Evaluate the model’s performance
 # Test generated prediction
