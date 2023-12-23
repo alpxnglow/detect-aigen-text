@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
 
 ### CONSTANTS ###
-INPUT_FILE = "data/training_data.csv" # this file should eventually have all of my training data, including AI generated data
+INPUT_FILE = "data/training_data.csv"
 BERT_MODEL_NAME = 'bert-base-uncased'
 NUM_CLASSES = 2
 MAX_LENGTH = 128
