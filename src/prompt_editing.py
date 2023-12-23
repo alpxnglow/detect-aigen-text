@@ -2,14 +2,14 @@
 
 #tacks
 newPrompt =  ""
-markerRemover = "Write a polished, final draft without paragraph markers "
+markerRemover = 'Write a polished, final draft without paragraph markers (e.g., do not include "Introduction", "Paragraph 1", etc.) '
 ages = ["10 year-old", "high-school student", "college student", "adult", "old person"]
 native = ["native English speaker. ", "non-native English speaker. "]
 sourcesRemover = "Do not include a sources section."
 
 ##extract first line of "base_prompts"
-path_file = '/Users/sanjayaharitsa/Downloads/projects/detect-aigen-text/detect-aigen-text/data/base_prompts.txt'
-new_path_file = '/Users/sanjayaharitsa/Downloads/projects/detect-aigen-text/detect-aigen-text/data/edited_prompts.txt'
+path_file = 'data/base_prompts.txt'
+new_path_file = 'data/edited_prompts.txt'
 file = open(path_file, "r")
 new_file = open(new_path_file, "a")
 line = file.readlines()

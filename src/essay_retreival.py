@@ -1,23 +1,38 @@
-from openai import OpenAI
-client = OpenAI()
+import openai
+import pandas as pd
+import time
+
+model_engine = "gpt-3.5-turbo" 
 
 #edited prompts file
-path_file = '/Users/sanjayaharitsa/Downloads/projects/detect-aigen-text/detect-aigen-text/data/edited_prompts.txt'
-new_path_file = '/Users/sanjayaharitsa/Downloads/projects/detect-aigen-text/detect-aigen-text/data/ai_essays.txt'
+path_file = 'data/edited_prompts.txt'
+new_path_file = 'data/ai_essays.csv'
 file = open(path_file, "r")
-new_file = open(new_path_file, "a")
+new_file = open(new_path_file, "a+")
 line = file.readlines()
 
+# Create a dummy dataframe
+df = pd.DataFrame(columns=['essay', 'generated'])
+num = 0
+
 for i in range(1000):
-  response = client.chat.completions.create(
+  response = openai.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
       {"role": "system", "content": "You are a helpful assistant."},
       {"role": "user", "content": line[i]}
     ]
   )
-  new_file.write(response) #append this to train_essays.csv later?
-  new_file.write("\n")
+  df.loc[len(df.index)] = [response.choices[0].message.content, 1]
+  print(df.loc[len(df.index)-1])
+  df.to_csv(new_path_file, encoding='utf-8', index=False)
+  num += 1
+  if num == 5:
+    time.sleep(60)
+    num = 0
+
+#df2 = pd.read_csv(new_path_file)
+#print(df2)
 
 #close files
 file.close()
