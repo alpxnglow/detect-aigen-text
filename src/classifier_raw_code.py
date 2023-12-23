@@ -11,7 +11,7 @@ import pandas as pd
 INPUT_FILE = "data/training_data.csv"
 BERT_MODEL_NAME = 'bert-base-uncased'
 NUM_CLASSES = 2
-MAX_LENGTH = 128
+MAX_LENGTH = 512
 BATCH_SIZE = 16
 NUM_EPOCHS = 1
 LEARNING_RATE = 2e-5
@@ -96,7 +96,6 @@ def predict_generated(text, model, tokenizer, device, max_length=128):
 
 
 ### MAIN ###
-
 # Read the data file
 texts, labels = load_essay_data(INPUT_FILE)
 
@@ -128,7 +127,7 @@ for epoch in range(NUM_EPOCHS):
     print(report)
 
 # Save the final model
-torch.save(model.state_dict(), "bert_classifier.pth")
+# torch.save(model.state_dict(), "bert_classifier.pth")
 
 # Evaluate the model’s performance
 # Test generated prediction
