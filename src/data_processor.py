@@ -15,16 +15,15 @@ df_humans_data = df_humans_data.drop(['id', 'prompt_id'], axis=1)
 
 # Run through the code to get human answered an chatgpt answered text into separate rows
 df_hc3_collated = pd.DataFrame(columns=['essay', 'generated'])
-for i in range(df_hc3_data.count()[0]):
-    df_hc3_collated.loc[len(df_hc3_collated.index)] = [df_hc3_data['chatgpt_answers'][i][0], 1]
+for i in range(df_hc3_data['chatgpt_answers'].count()):
+    for j in range(len(df_hc3_data['chatgpt_answers'][i])):
+        df_hc3_collated.loc[len(df_hc3_collated.index)] = [df_hc3_data['chatgpt_answers'][i][0], 1]
 
-    for j in range(3): # hard coding 3 since i notice most of the data have three responses from humans
+for i in range(df_hc3_data['human_answers'].count()):
+    for j in range(len(df_hc3_data['human_answers'][i])):
         df_hc3_collated.loc[len(df_hc3_collated.index)] = [df_hc3_data['human_answers'][i][j], 0]
 
-# df_hc3_data.rename(columns = {'text':'essay'}, inplace = True)
-# df_hc3_data = df_humans_data.drop(['id', 'prompt_id'], axis=1)
-
-df_all_data = pd.concat([df_humans_data, df_ai_data], ignore_index=True, sort=False)
+df_all_data = pd.concat([df_humans_data, df_ai_data, df_hc3_collated], ignore_index=True, sort=False)
 df_all_data.to_csv(all_essays_file, encoding='utf-8', index=False)
 
 # print(df_humans_data)

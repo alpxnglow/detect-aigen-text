@@ -11,7 +11,7 @@ import pandas as pd
 INPUT_FILE = "data/training_data.csv"
 BERT_MODEL_NAME = 'bert-base-uncased'
 NUM_CLASSES = 2
-MAX_LENGTH = 512
+MAX_LENGTH = 128
 BATCH_SIZE = 16
 NUM_EPOCHS = 1
 LEARNING_RATE = 2e-5
