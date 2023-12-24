@@ -27,7 +27,7 @@ MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_esssay_classifi
 # Read data
 def load_essay_data(data_file):
     df = pd.read_csv(data_file)
-    df_sample = df.sample(frac=0.1)
+    df_sample = df.sample(frac=0.05)
     print(df.count())
     texts = df_sample['essay'].tolist()
     labels = [1 if generated == 1 else 0 for generated in df_sample['generated'].tolist()]
