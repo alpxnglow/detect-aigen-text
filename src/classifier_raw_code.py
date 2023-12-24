@@ -18,7 +18,10 @@ BATCH_SIZE = 16
 NUM_EPOCHS = 1
 LEARNING_RATE = 2e-5
 HOME_DIR = str(Path.home())
-MODEL_OUTPUT_LOCATION = os.path.join(HOME_DIR, "Documents", "Model", str(datetime.now()), "ai_human_esssay_classifier.pth")
+MODEL_OUTPUT_DIR = os.path.join(HOME_DIR, "Documents", "Model", str(datetime.now().strftime("%m%d%Y%H%M%S")))
+if not os.path.exists(MODEL_OUTPUT_DIR):
+    os.mkdir(MODEL_OUTPUT_DIR)
+MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_esssay_classifier.pth")
 
 ### GENERIC METHODS ###
 # Read data
