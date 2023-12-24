@@ -27,7 +27,9 @@ MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_essay_classifie
 # Read data
 def load_essay_data(data_file):
     df = pd.read_csv(data_file)
-    df_sample = df.sample(frac=0.02)
+    df_sample = df.sample(frac=0.3)
+    df_sample = df_sample.dropna()
+    print(df_sample.count())
     texts = df_sample['essay'].tolist()
     labels = [1 if generated == 1 else 0 for generated in df_sample['generated'].tolist()]
     return texts, labels
@@ -65,15 +67,19 @@ class BERTClassifier(nn.Module):
 def train(model, data_loader, optimizer, scheduler, device):
     model.train()
     for batch in data_loader:
-        optimizer.zero_grad()
-        input_ids = batch['input_ids'].to(device)
-        attention_mask = batch['attention_mask'].to(device)
-        labels = batch['label'].to(device)
-        outputs = model(input_ids=input_ids, attention_mask=attention_mask)
-        loss = nn.CrossEntropyLoss()(outputs, labels)
-        loss.backward()
-        optimizer.step()
-        scheduler.step()
+        try:
+            optimizer.zero_grad()
+            input_ids = batch['input_ids'].to(device)
+            attention_mask = batch['attention_mask'].to(device)
+            labels = batch['label'].to(device)
+            outputs = model(input_ids=input_ids, attention_mask=attention_mask)
+            loss = nn.CrossEntropyLoss()(outputs, labels)
+            loss.backward()
+            optimizer.step()
+            scheduler.step()
+        except pandas.errors.ValueError as e:
+            print("train: value error encountered while training")
+            print(e)
 
 # Evaluate the performance of the model
 def evaluate(model, data_loader, device):
@@ -82,13 +88,17 @@ def evaluate(model, data_loader, device):
     actual_labels = []
     with torch.no_grad():
         for batch in data_loader:
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            labels = batch['label'].to(device)
-            outputs = model(input_ids=input_ids, attention_mask=attention_mask)
-            _, preds = torch.max(outputs, dim=1)
-            predictions.extend(preds.cpu().tolist())
-            actual_labels.extend(labels.cpu().tolist())
+            try:
+                input_ids = batch['input_ids'].to(device)
+                attention_mask = batch['attention_mask'].to(device)
+                labels = batch['label'].to(device)
+                outputs = model(input_ids=input_ids, attention_mask=attention_mask)
+                _, preds = torch.max(outputs, dim=1)
+                predictions.extend(preds.cpu().tolist())
+                actual_labels.extend(labels.cpu().tolist())
+            except pandas.errors.ValueError as e:
+                print("evaluate: value error encountered while evaluation")
+                print(e)
     return accuracy_score(actual_labels, predictions), classification_report(actual_labels, predictions)
 
 # Inference run on sample instance
