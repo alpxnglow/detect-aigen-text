@@ -13,21 +13,21 @@ from datetime import datetime
 INPUT_FILE = "data/training_data.csv"
 BERT_MODEL_NAME = 'bert-base-uncased'
 NUM_CLASSES = 2
-MAX_LENGTH = 128
+MAX_LENGTH = 512
 BATCH_SIZE = 16
-NUM_EPOCHS = 1
+NUM_EPOCHS = 2
 LEARNING_RATE = 2e-5
 HOME_DIR = str(Path.home())
 MODEL_OUTPUT_DIR = os.path.join(HOME_DIR, "Documents", "Model", str(datetime.now().strftime("%m%d%Y%H%M%S")))
 if not os.path.exists(MODEL_OUTPUT_DIR):
     os.mkdir(MODEL_OUTPUT_DIR)
-MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_esssay_classifier.pth")
+MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_essay_classifier.pth")
 
 ### GENERIC METHODS ###
 # Read data
 def load_essay_data(data_file):
     df = pd.read_csv(data_file)
-    df_sample = df.sample(frac=1)
+    df_sample = df.sample(frac=0.02)
     print(df.count())
     texts = df_sample['essay'].tolist()
     labels = [1 if generated == 1 else 0 for generated in df_sample['generated'].tolist()]
@@ -134,9 +134,8 @@ for epoch in range(NUM_EPOCHS):
     accuracy, report = evaluate(model, val_dataloader, device)
     print(f"Validation Accuracy: {accuracy:.4f}")
     print(report)
-
-# Save the final model
-torch.save(model.state_dict(), MODEL_OUTPUT_LOCATION)
+    # Save the final model from this epoch
+    torch.save(model.state_dict(), MODEL_OUTPUT_LOCATION+str(epoch))
 
 # Evaluate the model’s performance
 # Test generated prediction
