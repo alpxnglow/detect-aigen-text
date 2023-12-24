@@ -27,8 +27,7 @@ MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_essay_classifie
 # Read data
 def load_essay_data(data_file):
     df = pd.read_csv(data_file)
-    df_sample = df.sample(frac=1)
-    print(df.count())
+    df_sample = df.sample(frac=0.02)
     texts = df_sample['essay'].tolist()
     labels = [1 if generated == 1 else 0 for generated in df_sample['generated'].tolist()]
     return texts, labels
@@ -102,7 +101,6 @@ def predict_generated(text, model, tokenizer, device, max_length=128):
         outputs = model(input_ids=input_ids, attention_mask=attention_mask)
         _, preds = torch.max(outputs, dim=1)
     return "1" if preds.item() == 1 else "0"
-
 
 ### MAIN ###
 # Read the data file
