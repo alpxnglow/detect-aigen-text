@@ -134,7 +134,7 @@ for epoch in range(NUM_EPOCHS):
     print(report)
 
 # Save the final model
-torch.save(model.state_dict(), MODEL_OUTPUT_LOCATION, create_dir=True)
+torch.save(model.state_dict(), MODEL_OUTPUT_LOCATION)
 
 # Evaluate the model’s performance
 # Test generated prediction
