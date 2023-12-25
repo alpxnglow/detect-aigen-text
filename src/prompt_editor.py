@@ -3,8 +3,8 @@ newPrompt =  ""
 markerRemover = 'Write a polished, final draft without paragraph markers (e.g., do not include "Title", "Introduction", "Paragraph 1", etc.) '
 ages = ["10 year-old", "high-school student", "college student", "adult", "old person"]
 native = ["native English speaker. ", "non-native English speaker. "]
-sourcesRemover = "Do not include a sources section. Make it seem human written. "
-errorIntro = "Introduce appropriate spelling and grammatical errors for a "
+sourcesRemover = 'Do not include a "Sources"/"Bibliography"/"Works Cited" section or anything of that sort. Make it seem human written. '
+errorIntro = "Add a minimal amount of typos and grammatical mistakes appropriate for a(n) "
 
 ##extract first line of "base_prompts"
 path_file = 'data/base_prompts.txt'
