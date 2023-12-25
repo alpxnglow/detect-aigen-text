@@ -77,7 +77,7 @@ def train(model, data_loader, optimizer, scheduler, device):
             loss.backward()
             optimizer.step()
             scheduler.step()
-        except pandas.errors.ValueError as e:
+        except pd.errors.ValueError as e:
             print("train: value error encountered while training")
             print(e)
 
