@@ -139,11 +139,11 @@ scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_t
 for epoch in range(NUM_EPOCHS):
     print(f"Epoch {epoch + 1}/{NUM_EPOCHS}")
     train(model, train_dataloader, optimizer, scheduler, device)
+    # Save the final model from this epoch
+    torch.save(model.state_dict(), MODEL_OUTPUT_LOCATION+str(epoch))
     accuracy, report = evaluate(model, val_dataloader, device)
     print(f"Validation Accuracy: {accuracy:.4f}")
     print(report)
-    # Save the final model from this epoch
-    torch.save(model.state_dict(), MODEL_OUTPUT_LOCATION+str(epoch))
 
 # Evaluate the model’s performance
 # Test generated prediction
