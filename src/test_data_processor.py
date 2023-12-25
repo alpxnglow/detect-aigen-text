@@ -1,34 +1,34 @@
 import pandas as pd
+import os
+import os
+import torch
+from torch import nn
+from torch.utils.data import DataLoader, Dataset
+from transformers import BertTokenizer, BertModel, get_linear_schedule_with_warmup
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+import pandas as pd
+from pathlib import Path
+from datetime import datetime
+import xml.etree.ElementTree as ET
+
+HOME_DIR = str(Path.home())
+MODEL_OUTPUT_DIR = os.path.join(HOME_DIR, "Documents", "Model", str(datetime.now().strftime("%m%d%Y%H%M%S")))
+if not os.path.exists(MODEL_OUTPUT_DIR):
+    os.mkdir(MODEL_OUTPUT_DIR)
+MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_essay_classifier.pth")
+
 
 # Edited prompts file
-human_generated_essays_file = 'data/train_essays.csv'
+human_generated_essays_file = 'data/human_essays.csv'
 ai_generated_essays_file = 'data/ai_essays.csv'
-hc3_file = 'data/all.jsonl'
-all_essays_file = 'data/training_data.csv'
+all_essays_file = 'data/testing_data.csv'
 
 df_humans_data = pd.read_csv(human_generated_essays_file)
 df_ai_data = pd.read_csv(ai_generated_essays_file)
-df_hc3_data = pd.read_json('data/all.jsonl', lines=True)
 
 df_humans_data.rename(columns = {'text':'essay'}, inplace = True)
 df_humans_data = df_humans_data.drop(['id', 'prompt_id'], axis=1)
 
-# Run through the code to get human answered an chatgpt answered text into separate rows
-df_hc3_collated = pd.DataFrame(columns=['essay', 'generated'])
-for i in range(df_hc3_data['chatgpt_answers'].count()):
-    for j in range(len(df_hc3_data['chatgpt_answers'][i])):
-        df_hc3_collated.loc[len(df_hc3_collated.index)] = [df_hc3_data['chatgpt_answers'][i][0], 1]
-
-for i in range(df_hc3_data['human_answers'].count()):
-    for j in range(len(df_hc3_data['human_answers'][i])):
-        df_hc3_collated.loc[len(df_hc3_collated.index)] = [df_hc3_data['human_answers'][i][j], 0]
-
-df_all_data = pd.concat([df_humans_data, df_ai_data, df_hc3_collated], ignore_index=True, sort=False)
+df_all_data = pd.concat([df_humans_data, df_ai_data], ignore_index=True, sort=False)
 df_all_data.to_csv(all_essays_file, encoding='utf-8', index=False)
-
-# print(df_humans_data)
-# print(df_humans_data.count())
-# print(df_ai_data)
-# print(df_ai_data.count())
-# print(df_all_data)
-# print(df_all_data.count())
