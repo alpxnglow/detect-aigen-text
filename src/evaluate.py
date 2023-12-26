@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
+from transformers import AutoModel
 
 ### CONSTANTS ###
 INPUT_FILE = "data/testing_data.csv"
@@ -17,16 +18,16 @@ BATCH_SIZE = 16
 HOME_DIR = str(Path.home())
 MODEL_INPUT_DIR = os.path.join(HOME_DIR, "Documents", "Model", "Final")
 MODEL_PATH = os.path.join(MODEL_INPUT_DIR, "ai_human_essay_classifier.pth")
+BERT_MODEL_NAME = 'bert-base-uncased'
 
 ### GENERIC METHODS ###
 # Read data
 def load_essay_data(data_file):
     df = pd.read_csv(data_file)
-    df_sample = df.sample(frac=0.3)
-    df_sample = df_sample.dropna()
-    print(df_sample.count())
-    texts = df_sample['essay'].tolist()
-    labels = [1 if generated == 1 else 0 for generated in df_sample['generated'].tolist()]
+    df = df.dropna()
+    texts = df['essay'].tolist()
+    labels = [1 if generated == 1 else 0 for generated in df['generated'].tolist()]
+    print(df)
     return texts, labels
 
 # Text classification dataset class
@@ -94,13 +95,13 @@ def predict_generated(text, model, tokenizer, device, max_length=128):
 texts, labels = load_essay_data(INPUT_FILE)
 
 # Initialize tokenizer, dataset, and data loader
-tokenizer = BertTokenizer.from_pretrained(MODEL_PATH)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = BERTClassifier(BERT_MODEL_NAME, NUM_CLASSES).to(device)
+model.load_state_dict(torch.load(MODEL_PATH))
+model.eval()
+tokenizer = BertTokenizer.from_pretrained(BERT_MODEL_NAME)
 val_dataset = TextClassificationDataset(texts, labels, tokenizer, MAX_LENGTH)
 val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
-
-# Set up the device and model
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = BERTClassifier(MODEL_PATH, NUM_CLASSES).to(device)
 
 # Evaluate the model’s performance
 # Test generated prediction
