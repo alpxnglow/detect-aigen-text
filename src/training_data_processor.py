@@ -25,10 +25,3 @@ for i in range(df_hc3_data['human_answers'].count()):
 
 df_all_data = pd.concat([df_humans_data, df_ai_data, df_hc3_collated], ignore_index=True, sort=False)
 df_all_data.to_csv(all_essays_file, encoding='utf-8', index=False)
-
-# print(df_humans_data)
-# print(df_humans_data.count())
-# print(df_ai_data)
-# print(df_ai_data.count())
-# print(df_all_data)
-# print(df_all_data.count())
