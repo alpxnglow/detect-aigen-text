@@ -103,6 +103,10 @@ tokenizer = BertTokenizer.from_pretrained(BERT_MODEL_NAME)
 val_dataset = TextClassificationDataset(texts, labels, tokenizer, MAX_LENGTH)
 val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
 
+accuracy, report = evaluate(model, val_dataloader, device)
+print(f"Validation Accuracy: {accuracy:.4f}")
+print(report)
+
 # Evaluate the model’s performance
 # Test generated prediction
 test_text = """Income inequality can affect our health and how long we live. It's important to understand how money is distributed in our society and how it affects healthcare disparities and life expectancy. Scientists have done studies and found that there is a connection between income inequality and health.
