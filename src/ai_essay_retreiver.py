@@ -2,14 +2,12 @@ import openai
 import pandas as pd
 import time
 
-model_engine = "gpt-3.5-turbo" 
+MODEL_ENGINE = "gpt-3.5-turbo" 
+EDITED_PROMPTS_FILE = 'data/edited_prompts.txt'
+AI_TEST_ESSAYS_OUTPUT_FILE = 'data/ai_test_essays_12262023180300.csv'
 
-# Edited prompts file
-path_file = 'data/edited_prompts.txt'
-new_path_file = 'data/ai_test_essays.csv'
-file = open(path_file, "r")
-new_file = open(new_path_file, "a+")
-line = file.readlines()
+edited_prompt_input = open(EDITED_PROMPTS_FILE, "r")
+prompts = edited_prompt_input.readlines()
 
 # Create a dummy dataframe
 df = pd.DataFrame(columns=['essay', 'generated'])
@@ -17,20 +15,20 @@ num = 0
 
 for i in range(1000):
   response = openai.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model=MODEL_ENGINE,
     messages=[
       {"role": "system", "content": "You are a helpful assistant."},
-      {"role": "user", "content": line[i]}
+      {"role": "user", "content": prompts[i]}
     ]
   )
   df.loc[len(df.index)] = [response.choices[0].message.content, 1]
   print(df.loc[len(df.index)-1])
-  df.to_csv(new_path_file, encoding='utf-8', index=False)
+  df.to_csv(AI_TEST_ESSAYS_OUTPUT_FILE, encoding='utf-8', index=False)
   num += 1
-  if num == 5:
+  if num == 3:
     time.sleep(60)
     num = 0
 
 #close files
-file.close()
-new_file.close()
+edited_prompt_input.close()
+#ai_test_essays_output.close()
