@@ -4,7 +4,7 @@ import time
 
 MODEL_ENGINE = "gpt-3.5-turbo" 
 EDITED_PROMPTS_FILE = 'data/edited_prompts.txt'
-AI_TEST_ESSAYS_OUTPUT_FILE = 'data/ai_test_essays_12262023180300.csv'
+AI_TEST_ESSAYS_OUTPUT_FILE = 'data/ai_test_essays_12272023180300.csv'
 
 edited_prompt_input = open(EDITED_PROMPTS_FILE, "r")
 prompts = edited_prompt_input.readlines()
