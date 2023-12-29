@@ -1,6 +1,6 @@
 #edits
 newPrompt =  ""
-markerRemover = 'Write a formal and polishd final draft without paragraph markers (e.g., do not include "Title", "Introduction", "Paragraph 1", etc.) '
+markerRemover = 'Write a formal and polished final draft without paragraph markers (e.g., do not include "Title", "Introduction", "Paragraph 1", etc.) '
 ages = ["10 year-old", "high-school student", "college student", "adult", "old person"]
 native = ["native English speaker. ", "non-native English speaker. "]
 sourcesRemover = 'Do not include a "Sources"/"Bibliography"/"Works Cited" section or anything of that sort. Make it seem human written. '
