@@ -23,6 +23,7 @@ AI_TEST_SOURCED_PYCODE_GPT_FILE = 'data/sourced_data/gpt/ChatGPT_pycode.csv'
 AI_TEST_SOURCED_STORY_GPT_FILE = 'data/sourced_data/gpt/ChatGPT_story.csv'
 # Output file
 ALL_TEST_ESSAYS_FILE = 'data/testing_data.csv'
+SAMPLED_TEST_ESSAYS_FILE = 'data/sampled_testing_data.csv'
 
 # DF setup
 df_human_test_essays = pd.read_csv(HUMAN_TEST_ESSAYS_FILE)
@@ -117,3 +118,15 @@ df_all_data = pd.concat([df_human_test_essays, df_ai_test_essays, df_ai_sourced_
 df_all_data = df_all_data.dropna()
 print(df_all_data)
 df_all_data.to_csv(ALL_TEST_ESSAYS_FILE, encoding='utf-8', index=False)
+
+# Sample equal human and AI generated ones; drop the code related data
+# Run through the code to get human answered an chatgpt answered text into separate rows
+df_all_human_data = pd.concat([df_human_test_essays, df_human_sourced_essay_1_human, df_human_sourced_essay_2_human, df_human_sourced_essay_hewlett_human, df_human_sourced_essay_hugg_human, df_human_sourced_poetry_human, df_human_sourced_story_human], ignore_index=True, sort=False)
+df_all_human_data = df_all_human_data.dropna()
+df_all_sampled_human_data = df_all_human_data.sample(frac=0.06)
+print(df_all_sampled_human_data.count())
+df_all_ai_data = pd.concat([df_ai_test_essays, df_ai_sourced_essay_bard, df_ai_sourced_poetry_bard, df_ai_sourced_story_bard, df_ai_sourced_essay_GPT, df_ai_sourced_poetry_GPT, df_ai_sourced_pycode_GPT, df_ai_sourced_story_GPT], ignore_index=True, sort=False)
+df_all_ai_data = df_all_ai_data.dropna()
+print(df_all_ai_data.count())
+df_all_ai_and_sampled_human_data = pd.concat([df_all_sampled_human_data, df_all_ai_data], ignore_index=True, sort=False)
+df_all_ai_and_sampled_human_data.to_csv(SAMPLED_TEST_ESSAYS_FILE, encoding='utf-8', index=False)

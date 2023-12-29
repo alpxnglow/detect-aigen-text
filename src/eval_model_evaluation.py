@@ -11,7 +11,7 @@ from datetime import datetime
 from transformers import AutoModel
 
 ### CONSTANTS ###
-INPUT_FILE = "data/testing_data.csv"
+INPUT_FILE = "data/sampled_testing_data.csv"
 NUM_CLASSES = 2
 MAX_LENGTH = 512
 BATCH_SIZE = 16
