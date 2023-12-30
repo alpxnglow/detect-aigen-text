@@ -26,7 +26,7 @@ for i in range(1000):
   df.to_csv(AI_TEST_ESSAYS_OUTPUT_FILE, encoding='utf-8', index=False)
   num += 1
   if num == 3:
-    time.sleep(60)
+    time.sleep(60) # sleep for a minute due to API call rate limit
     num = 0
 
 #close files
