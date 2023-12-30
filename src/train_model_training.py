@@ -175,9 +175,3 @@ Discussion: From the table of results it is clear that the genes allowing growth
 """
 generated = predict_generated(test_text, model, tokenizer, device)
 print(f"2. Predicted generated: {generated}")
-
-# # Test generated prediction
-# test_text = "Worst movie of the year."
-# generated = predict_generated(test_text, model, tokenizer, device)
-# print("Worst movie of the year.")
-# print(f"Predicted generated: {generated}")
