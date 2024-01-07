@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
+from transformers import AutoTokenizer, DebertaV2Model
 
 ### CONSTANTS ###
 INPUT_FILE = "data/training_data.csv"
@@ -27,7 +28,7 @@ MODEL_OUTPUT_LOCATION = os.path.join(MODEL_OUTPUT_DIR, "ai_human_essay_classifie
 # Read data
 def load_essay_data(data_file):
     df = pd.read_csv(data_file)
-    df_sample = df.sample(frac=0.3)
+    df_sample = df.sample(frac=0.03)
     df_sample = df_sample.dropna()
     print(df_sample.count())
     texts = df_sample['essay'].tolist()
@@ -54,6 +55,7 @@ class BERTClassifier(nn.Module):
     def __init__(self, bert_model_name, num_classes):
         super(BERTClassifier, self).__init__()
         self.bert = BertModel.from_pretrained(bert_model_name)
+        #self.bert = DebertaV2Model.from_pretrained("microsoft/deberta-v2-xlarge")
         self.dropout = nn.Dropout(0.1)
         self.fc = nn.Linear(self.bert.config.hidden_size, num_classes)
     def forward(self, input_ids, attention_mask):
@@ -121,6 +123,7 @@ train_texts, val_texts, train_labels, val_labels = train_test_split(texts, label
 
 # Initialize tokenizer, dataset, and data loader
 tokenizer = BertTokenizer.from_pretrained(BERT_MODEL_NAME)
+#tokenizer = AutoTokenizer.from_pretrained("microsoft/deberta-v2-xlarge")
 train_dataset = TextClassificationDataset(train_texts, train_labels, tokenizer, MAX_LENGTH)
 val_dataset = TextClassificationDataset(val_texts, val_labels, tokenizer, MAX_LENGTH)
 train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
