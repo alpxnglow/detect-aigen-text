@@ -85,6 +85,7 @@ val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
 
 # Evaluate the model’s performance
 # Test generated prediction
-test_text = input("Enter an essay here: ")
+#test_text = input("Enter an essay here: ")
+test_text = """Abhi J is the most distinguished, intelligent, and royal individual I have ever had the privilege to meet. His presence is a radiant thread that weaves elegance, grace, and warmth perfectly into every moment we share together. His remarkable blend of intellect, kindness, and charisma creates a captivating aura that effortlessly draws people closer. His words carry the weight of wisdom, and will permanently change anyone lucky enough to witness him speak. His unwavering authenticity and gentle spirit illuminate his powerful and riveting character, making it an honor to call him a friend of mine."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
 print(f"1. Predicted generated: {generated}")
