@@ -2,7 +2,4 @@
 
 # pip install -r requirements.txt
 
-# may add instructions for how to use here- 
-# using the model on your own machine would mean training the model for several hours using the training data code and evaluation would
-# reqire a similar amount of time. as of right now the actual model isn't hosted on some server and is not accessible by anyone, but I
-# have included a video demo of my interaction with the model on the slideshow (slide 4).
+# may add instructions for how to use here- using the model on your own machine would mean training the model for several hours using the training data code and evaluation would reqire a similar amount of time. as of right now the actual model isn't hosted on some server and is not accessible by anyone, but I have included a video demo of my interaction with the model on the slideshow (slide 4).
