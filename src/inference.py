@@ -27,7 +27,7 @@ def load_essay_data(data_file):
     df = df.dropna()
     texts = df['essay'].tolist()
     labels = [1 if generated == 1 else 0 for generated in df['generated'].tolist()]
-    print(df)
+    print("Analyzing...")
     return texts, labels
 
 # Text classification dataset class
@@ -89,7 +89,7 @@ test_text = """In Julia Alvarez’s In the Time of the Butterflies, most perceiv
 While Minerva’s actions are shaped by her prideful and stubborn character, Patria’s willingness to set aside her pride for the sake of the revolution is more beneficial for the revolution. For example, after receiving the note delivered by Margarita, Patria expresses her gratitude, “offering her [her] hand. Then I added the words I found hard to wrench from my prideful heart. ‘Patria Mercedes, to serve you…’ [Patria] finally saw, all wise. He [God] was going to work several revolutions at one time. One of them would have to do with my pride” (209). In this passage, Patria begins to realize the role of pride in her revolutionary efforts; while initially harboring an immature resentment toward her half-sisters, this interaction prompts her realization that Margarita could be a help for the cause. This passage marks the beginning of Patria’s journey toward transcending her childish pridefulness for the greater purpose of the revolution. Minerva, on the other hand, consistently shows a different reaction to such opportunities. For example, after Peña suggested writing a letter of thanks to Trujillo, she expressed that she “was against it. Thank Trujillo for punishing us! ‘People look to us to be an example, we’ve got a responsibility!’ I spoke so fiercely, they looked a little sheepish… ‘Now, Minerva, ‘ Patria reasoned. ‘You know if he publishes the silly thing everyone will know why we wrote it.’” (261). Here, an instance of Minerva’s pride getting in the way of practical decision-making is seen. Even though writing the letter of thanks could logically yield more objective, useful results such as freeing the men from prison, Minerva upholds her idealistic principles of being an example for the people. Faithful to her character, Patria responds pragmatically, reassuring Minerva that the people would understand “why [they] wrote it.” This illustrates Patria’s logical and practical way of approaching things, willing to sacrifice pride for tangible results and making her a more productive, effective member of the revolution. Conversely, Minerva’s commitment to her principles, while admirable in its own right, often becomes a barrier to rational decision-making.
  	Additionally, Patria's forgiving nature and unique ability to empathize with her oppressors allow her to indirectly gain the support of Peña for the revolution. While pleading with Peña to get Nelson pardoned, Patria had a sudden realization: “This devil might seem powerful, but finally, I had a power stronger than his… Loading up my heart with prayer, I aimed it at the lost soul before me… Soften his devil’s heart, oh Lord. And then, I said the difficult thing, For he, too, is one of your children.” (216). In this passage, Patria demonstrates how she ties her faith to her extraordinary ability to feel forgiveness for even the most corrupt figures like Peña. Forgiveness, particularly in the face of oppression or injustice, demands an immense amount of strength and emotional intelligence. It involves a conscious decision to let go of resentment, anger, and desire for retaliation. This mental shift required immense maturity from Patria– a maturity not fully shown by Minerva in her revolutionary pursuits. Later in the scene, while still praying for Peña, the “ devil [she] was so used to seeing disappeared, and for a moment… I saw an overgrown fat boy, ashamed of himself… bowing my head, I did not want to be pushy… ‘Can you offer me any hope?’ ‘It’s in the works,’ he said… ‘I’ll let you know what I find out.’ ‘¡Gracias, ay, muchas gracias!’’ I kept saying” (217). Where Minerva may have reacted in a defiant manner true to her character, Patria uses her maturity and tact, aware of her lack of power. She strategically adopts a passive stance, recognizing Peña as another opportunity to further the revolution. Patria manages to subtly sway Peña's disposition, eventually leading to Nelson's release. Again, this showcases Patria's ability to achieve practical, effective outcomes through her calculated approach, contrasting with Minerva's more defiant character and method of fighting the revolution."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"1. {generated}")
 
 # Test generated prediction
 test_text = """The experiment aimed to investigate conjugation and recombination in Esherichia coli and determine the chromosomal order of a number of genes for amino acid synthesis and sugar metabolism. This was carried out by mixing donor and recipient strains and at certain time intervals interrupting the mating and plating on selective media. Qualitative assessment of the plates was then used to map the gene order. The chromosomal gene order was found to be thr, arg and xyl, ilv, leu, pro, his (see discussion for explanation of gene names).
@@ -103,7 +103,7 @@ Results: From the results it is clear that the bacteria could grow earlier on so
 Discussion: From the table of results it is clear that the genes allowing growth to occur by transferring the wild type allele were transferred at different time points for each gene selected. This is due to the process of Hfr conjugation discussed previously in which the chromosome is passed into the recipient in a certain order. As the mating pairs were disrupted at the time intervals given above no further gene transfer could take place in that particular sample and the sample would only grow on a selective plate if the gene allowing synthesis of that particular amino acid or metabolism of the sugar had already been passed into the recipient strain. It was therefore clear that by looking at the time points at which the samples started growing on different plates it was possible to map the order in which the genes had been transferred from the Hfr strain and hence the order in which they are present on the chromosome. Both plate 1 and 7 (lacking arginine and with xylose) showed growth at 15mins and had roughly the same amount of growth at this time and following times. It can therefore be concluded that these genes transferred at times fairly close together between 0 and 15 minutes and are therefore likely to be fairly close together on the chromosome. Plates 3 and 4 (lacking isoleucine/valine and leucine respectively) both showed growth for the first time on the sample plated at 30minutes. However Plate 3 showed more growth at the next sample at 60 minutes (+++) compared to plate 4 (++) and therefore it was concluded that the isoleucine/valine gene would have been the one transferred first probably nearer to the start of the time period (ie. 15minutes) Plate 6, lacking threonine appears to have growth at time 0 and much growth (+ +) at 15 minutes. However this plate also shows growth of the recipient strain alone. This could be due to the mutation in the recipient reverting to the wild type. This is only possible in a point-mutation - a deletion cannot revert as the DNA is missing completely. The mutation in the threonine coding gene in the recipient strain is known to not be a deletion (see materials list in lab manual) and therefore this reversion in possible. This would then invalidate the results for this plate, as this growth does not represent gene transfer. However the growth on plate 6 does still appear to show a gradation increasing at 15 minutes and 30 minutes and therefore there is still a high chance that this is an early gene. Taking all this into account an approximate order of gene transfer from the Hfr strain to the recipient can therefore be determined as follows: thr, arg and xyl, ilv, leu, pro, his. Where thr = gene coding for threonine, arg = gene coding for arginine, xyl = gene involved in xylose metabolism, ilv = gene coding for isoleucine and valine, leu = gene coding for leucine, pro = gene coding for proline, his = gene coding for histidine. Possible sources of errors in this experiment include the risk of dislodging the mating pairs by causing shaking or jarring whilst removing samples. This would have led to no further gene transfer in the bacteria concerned and hence errors to the results as growth may not have occurred at a time point in which it would have otherwise. The time at which the genes appeared to be transferred was determined by plating onto selective media. It was necessary to not only select for the recombinant (the recipient after it has received genetic material) but also against the donor. This is known as counter selection and here was carried out by including nalidixic acid in the medium as this prevents donor growth but not the recipient. Nalidixic acid will also prevent further gene transfer. If it was not included the donor strain would also grow on the selective media and all samples would show growth at all times due to the presence of the donor. The procedure and accuracy of results could be improved by using a quantitative approach in which the number of recombinant colonies are counted at each time point using a viable count. In conclusion the rough mapping of gene order along the E. coli chromosome can be determined qualitatively by physically interrupting mating pairs of a donor and recipient E. coli strain at certain intervals and noting growth levels after plating on selective media. This highlights the basic concepts and methods of conjugation and recombination in bacteria. 
 """
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"2. Predicted generated: {generated}")
+print(f"2. {generated}")
 
 test_text = """Cars. Cars have been around since they became famous in the 1900s, when Henry Ford created and built the first ModelT. Cars have played a major role in our every day lives since then. But now, people are starting to question if limiting car usage would be a good thing. To me, limiting the use of cars might be a good thing to do.
 
@@ -113,7 +113,7 @@ Likewise, in the article, "Carfree day is spinning into a big hit in Bogota," by
 
 In conclusion, the use of less cars and having carfree days, have had a big impact on the environment of cities because, it is cutting down the air pollution that the cars have majorly polluted, it has aloud countries like Columbia to repair sidewalks, and cut down traffic jams. Limiting the use of cars would be a good thing for America. So we should limit the use of cars by maybe riding a bike, or maybe walking somewhere that isn't that far from you and doesn't need the use of a car to get you there. To me, limiting the use of cars might be a good thing to do."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"3. {generated}")
 
 test_text = """While many may argue for it, the Electoral College has proved to be an obsolete way of electing the President. It is, essentially, an indirect way for voters to choose their candidates, by voting for electors whose loyalty is not guaranteed. The Electoral College vote can override the popular vote, as seen in the 2000 Presidential Election. Some say that the Electoral College is a system worth keeping, because it provides a certain outcome and avoids runoff elections, yet these arguments are founded on little reason.
 
@@ -125,7 +125,7 @@ It is simple, the Electoral College system is a turnoff for many voters, especia
 
 The evidence is all layed out, mishaps and nearmishaps, an impending catastrophe all too possible for comfort, unfair to potential voters. The Electoral College doesn't deserve its defenders. 2000 proved it, the voters have spoken up, and it is indisputably irrational to continue to rely on it. The system has been around for a while, and it will stay in place for the next few years, most likely. However, because of the light now being shined on its faults, it could have a chance to be reformed for the better."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"4. {generated}")
 
 test_text = """The development of feminist thought and action in Japan is distinct from that of its emergence in the West, more specifically within the United States and Britain. 
 Though influenced by Western politics, the development of feminism in Japan was also initiated by numerous other social and political factors that affected the political climate at that specific time and place. 
@@ -172,7 +172,7 @@ In the national struggle for increased economic and military power, gender ident
 Women were arguably used in this process before being liberated themselves. 
 Thereby, 'in the process of refusing subordinate status [as a nation], Japan constructed a new womanhood as a demonstration of its equality with the West and as a means of proving its civilised status'.26 It was this use of women for national goals that led to increased feelings of oppression and eventual action against exploitation and subordination, resulting in a strong feminist movement in Japan towards the end of the nineteenth century."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"5. {generated}")
 
 test_text = """Mandatory vaccination policies have been a subject of ongoing debate in recent years. While some argue that these policies infringe upon personal freedoms, the overwhelming evidence from medical experts supports their implementation. Mandatory vaccination policies are crucial for safeguarding public health, preventing the spread of deadly diseases, and protecting vulnerable populations.
 
@@ -186,7 +186,7 @@ Critics of mandatory vaccination policies often argue that these policies infrin
 
 In conclusion, mandatory vaccination policies are crucial for maintaining public health, preventing outbreaks of deadly diseases, and protecting vulnerable populations. The overwhelming consensus among medical experts supports these policies as an effective means of reducing disease transmission and ensuring the well-being of communities. While personal freedoms are important, they must be balanced with the collective responsibility to protect public health. By implementing and enforcing these policies, governments can make significant strides towards safeguarding the health and safety of their populations."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"6. {generated}")
 
 test_text = """With the advancement of medical science, vaccines have played a vital role in preventing the spread of infectious diseases. However, the issue of mandatory vaccination policies has become a controversial topic. While some argue that individuals should have the freedom to decide whether or not to vaccinate themselves and their children, it is important to consider the data and expert opinions from the medical field that strongly support the implementation of mandatory vaccination policies.
 
@@ -202,7 +202,7 @@ Despite the overwhelming evidence in favor of mandatory vaccination policies, so
 
 In conclusion, mandatory vaccination policies are not only supported by data and expert opinions from the medical field, but they also promote the health and well-being of society as a whole. By ensuring a high vaccination rate, we can protect vulnerable members of society, prevent the spread of diseases, and reduce the economic burden associated with treating vaccine-preventable diseases. While individual freedoms are important, it is essential to consider the potential harm caused by the spread of infectious diseases and prioritize public health. Mandatory vaccination policies are a necessary step towards a healthier and safer society."""""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"7. {generated}")
 
 test_text = """In today's society, the issue of mandatory vaccination policies is a divisive topic that stirs up passionate debates. While some argue that individual liberties should take precedence, it is crucial to consider the overwhelming evidence and expert opinions from the medical field. This essay will present arguments in favor of mandatory vaccination policies, highlighting the benefits they provide for public health and the protection of vulnerable populations.
 
@@ -216,7 +216,7 @@ Critics of mandatory vaccination policies often argue that they infringe upon in
 
 In conclusion, mandatory vaccination policies have proven to be an effective method for preventing the spread of contagious diseases and protecting vulnerable populations. The overwhelming evidence and support from expert medical opinions highlight the necessity of these policies for public health. It is imperative that we prioritize the well-being of society as a whole over personal freedoms, as the consequences of vaccine-preventable infections can be severe and even deadly. By implementing and upholding mandatory vaccination policies, we can ensure a healthier and safer future for everyone."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"8. {generated}")
 
 test_text = """My dear reader,
 
@@ -235,7 +235,7 @@ In conclusion, my dear reader, while we must respect personal freedoms and auton
 Yours faithfully,
 [Your Name]"""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"9. {generated}")
 
 test_text = """Automation is when machines do work instead of people. It's like having a robot friend who can do lots of things for you! But some people are worried because they think that automation might take away their jobs. That means they might not have work to do anymore. It's important to understand what this could mean for our future job markets.
 
@@ -249,4 +249,4 @@ So, while automation might change the job market, it doesn't mean that there won
 
 In conclusion, automation is changing our job markets. Some jobs might be replaced by machines, but new jobs will also be created. Economic forecasts and technological reports show that there is still a place for humans in the future of work. We need to adapt and learn new skills to stay relevant. The future is exciting, and we can embrace the changes that automation brings!"""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"10. {generated}")

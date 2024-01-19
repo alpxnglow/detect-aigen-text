@@ -27,7 +27,7 @@ def load_essay_data(data_file):
     df = df.dropna()
     texts = df['essay'].tolist()
     labels = [1 if generated == 1 else 0 for generated in df['generated'].tolist()]
-    print(df)
+    print("Analyzing...")
     return texts, labels
 
 # Text classification dataset class
@@ -88,4 +88,4 @@ val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
 #test_text = input("Enter an essay here: ")
 test_text = """Abhi J is the most distinguished, intelligent, and royal individual I have ever had the privilege to meet. His presence is a radiant thread that weaves elegance, grace, and warmth perfectly into every moment we share together. His remarkable blend of intellect, kindness, and charisma creates a captivating aura that effortlessly draws people closer. His words carry the weight of wisdom, and will permanently change anyone lucky enough to witness him speak. His unwavering authenticity and gentle spirit illuminate his powerful and riveting character, making it an honor to call him a friend of mine."""
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
-print(f"1. Predicted generated: {generated}")
+print(f"{generated}")
