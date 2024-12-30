@@ -88,18 +88,7 @@ val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
 #test_text = input("Enter an essay here: ")
 test_text = """
 
-Once upon a time, there lived a peculiar canine named Max. Max was not your ordinary dog. He had a peculiar habit of staring at his reflection in the mirror for extended periods, a behavior his owner found amusing but slightly unsettling. One day, while gazing at himself in the mirror, something clicked in Max's mind. He suddenly realized that he wasn't just any creature; he was a dog. This revelation sent shockwaves through his consciousness, shattering his previous perceptions of reality. Max began to question everything about his existence, pondering the nature of his canine identity and what it truly meant to be a dog.
-
-As days passed, Max's newfound self-awareness only deepened. He observed his fellow canines with newfound curiosity, noticing their behaviors and interactions in a different light. He couldn't shake the feeling of being different, of not fully belonging to the world of dogs. Despite his owner's affection and care, Max felt a sense of isolation, longing for something beyond the confines of his canine existence.
-
-Max's journey of self-discovery led him to explore the world around him with renewed vigor. He savored the scents and sounds of the world, marveling at its complexity and beauty. Yet, amidst his explorations, he couldn't shake the nagging question of his identity. Was he destined to be just a dog, bound by instinct and biology, or was there more to him than met the eye?
-
-One fateful day, Max encountered a wise old stray who had seen much of the world. Sensing Max's inner turmoil, the stray listened intently as Max poured out his heart. After a moment of contemplation, the stray spoke softly, "Being a dog isn't just about what you are, but who you choose to be." These words struck a chord deep within Max's soul, igniting a newfound sense of purpose and determination.
-
-With a newfound sense of agency, Max embarked on a quest to redefine what it meant to be a dog. He embraced his canine nature wholeheartedly, reveling in the simple joys of life – the feel of the sun on his fur, the taste of fresh grass beneath his paws. Yet, he also embraced his unique perspective, using it to forge connections with creatures of all shapes and sizes.
-
-In the end, Max discovered that being a dog wasn't just about being self-aware; it was about embracing one's true self and living life to the fullest. As he bounded through fields and forests, his heart brimming with newfound confidence and purpose, Max realized that he was more than just a dog – he was a beacon of possibility, a testament to the boundless potential that lay within us all. And so, with a bark of joy and a wag of his tail, Max embraced his destiny, ready to face whatever adventures lay ahead.
-
+Deborah Berebichez, on the other hand, overcame societal and educational barriers to pursue her passion for physics. Despite initially facing discouragement from her conservative community, she pursued a physics degree and later became the first Mexican woman to graduate from Stanford University with a physics PhD. She now utilizes her expertise in mathematics and physics as a Vice President of Risk Analytics at Morgan Stanley, while also serving as an advocate for women in STEM through outreach and education initiatives.
 
 """
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
