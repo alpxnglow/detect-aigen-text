@@ -88,7 +88,7 @@ val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
 #test_text = input("Enter an essay here: ")
 test_text = """
 
-Deborah Berebichez, on the other hand, overcame societal and educational barriers to pursue her passion for physics. Despite initially facing discouragement from her conservative community, she pursued a physics degree and later became the first Mexican woman to graduate from Stanford University with a physics PhD. She now utilizes her expertise in mathematics and physics as a Vice President of Risk Analytics at Morgan Stanley, while also serving as an advocate for women in STEM through outreach and education initiatives.
+test text
 
 """
 generated = predict_generated(test_text, model, tokenizer, device, MAX_LENGTH)
